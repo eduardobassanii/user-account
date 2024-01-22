@@ -51,6 +51,8 @@ def login_request():
         
         if user and user[4] == password:
             return redirect(url_for('dashboard'))
+        else:
+            return redirect(url_for('login', login_failed=1))
     return render_template('index.html')
 
 @app.route('/signup_request', methods=['GET', 'POST'])
