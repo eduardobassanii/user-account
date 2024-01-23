@@ -53,7 +53,7 @@ input {
 }
 
 input:hover {
-    border-color: #FCD535;
+    border-color: #FCD535 !important;
 }
 
 a {
@@ -79,4 +79,13 @@ button {
 
 button:hover {
     background-color: #F0B90B;
+}
+
+#signup-failed-message {
+    display: none;
+    color: rgb(246, 70, 93);
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    text-align: left;
 }

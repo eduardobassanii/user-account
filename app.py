@@ -65,11 +65,17 @@ def signup_request():
         
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)", (first_name, last_name, username, password))
-        conn.commit()
-        conn.close()
-        
-        return redirect(url_for('login_request'))
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        user = cursor.fetchone()
+
+        if user:
+            conn.close()
+            return redirect(url_for('signup', signup_failed=1))
+        else:
+            cursor.execute("INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)", (first_name, last_name, username, password))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login_request'))
     return render_template('signup.html')
 
 if __name__ == "__main__":
