@@ -52,6 +52,12 @@ def dashboard():
         return render_template('dashboard.html', user_info=user_info)
     else:
         return redirect(url_for('login'))
+    
+@app.route('/change_password')
+def change_password():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('change_password.html')
 
 @app.route('/login_request', methods=['GET', 'POST'])
 def login_request():
@@ -115,6 +121,35 @@ def delete_account():
 
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/change_password_request', methods=['POST'])
+def change_password_request():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    old_password = request.form['old_password']
+    new_password = request.form['new_password']
+    confirm_password = request.form['confirm_password']
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT password FROM users WHERE username=?", (username,))
+    stored_password = cursor.fetchone()[0]
+
+    if not stored_password or stored_password != old_password:
+        conn.close()
+        return redirect(url_for('change_password', change_password_failed=1))
+
+    if new_password != confirm_password:
+        conn.close()
+        return redirect(url_for('change_password', change_password_failed=1))
+
+    cursor.execute("UPDATE users SET password=? WHERE username=?", (new_password, username))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('dashboard'))
 
 if __name__ == "__main__":
     app.run()

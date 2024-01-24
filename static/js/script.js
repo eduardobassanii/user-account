@@ -1,28 +1,28 @@
 function checkParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('login_failed') === '1') {
-        document.getElementById('username').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('password').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('login-failed-message').style.display = 'block';
-
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
+
+        usernameInput.style.borderColor = 'rgb(246, 70, 93)';
+        passwordInput.style.borderColor = 'rgb(246, 70, 93)';
+        document.getElementById('login-failed-message').style.display = 'block';
 
         usernameInput.addEventListener('focus', clearLoginFailed);
         passwordInput.addEventListener('focus', clearLoginFailed);
     }
 
     if (urlParams.get('signup_failed') === '1') {
-        document.getElementById('first-name').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('last-name').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('username').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('password').style.borderColor = 'rgb(246, 70, 93)';
-        document.getElementById('signup-failed-message').style.display = 'block';
-
         const firstNameInput = document.getElementById('first-name');
         const lastNameInput = document.getElementById('last-name');
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
+
+        firstNameInput.style.borderColor = 'rgb(246, 70, 93)';
+        lastNameInput.style.borderColor = 'rgb(246, 70, 93)';
+        usernameInput.style.borderColor = 'rgb(246, 70, 93)';
+        passwordInput.style.borderColor = 'rgb(246, 70, 93)';
+        document.getElementById('signup-failed-message').style.display = 'block';
 
         firstNameInput.addEventListener('focus', clearSignupFailed);
         lastNameInput.addEventListener('focus', clearSignupFailed);
@@ -38,6 +38,22 @@ function checkParameters() {
 
         usernameInput.addEventListener('focus', clearSigupSuccessful);
         passwordInput.addEventListener('focus', clearSigupSuccessful);
+    }
+
+    if (urlParams.get('change_password_failed') === '1') {
+        document.getElementById('change-password-failed-message').style.display = 'block';
+
+        const oldPasswordInput = document.getElementById('old_password');
+        const newPasswordInput = document.getElementById('new_password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        oldPasswordInput.style.borderColor = 'rgb(246, 70, 93)';
+        newPasswordInput.style.borderColor = 'rgb(246, 70, 93)';
+        confirmPasswordInput.style.borderColor = 'rgb(246, 70, 93)';
+
+        oldPasswordInput.addEventListener('focus', clearPasswordChangeFailed);
+        newPasswordInput.addEventListener('focus', clearPasswordChangeFailed);
+        confirmPasswordInput.addEventListener('focus', clearPasswordChangeFailed);
     }
 }
 
@@ -57,6 +73,13 @@ function clearSignupFailed() {
 
 function clearSigupSuccessful() {
     document.getElementById('signup-successful-message').style.display = 'none';
+}
+
+function clearPasswordChangeFailed() {
+    document.getElementById('old_password').style.borderColor = '#474D57';
+    document.getElementById('new_password').style.borderColor = '#474D57';
+    document.getElementById('confirm_password').style.borderColor = '#474D57';
+    document.getElementById('change-password-failed-message').style.display = 'none';
 }
 
 function confirmAccountDeletion() {
