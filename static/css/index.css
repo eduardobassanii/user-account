@@ -89,3 +89,12 @@ a {
     margin-bottom: 30px;
     text-align: left;
 }
+
+#signup-successful-message {
+    display: none;
+    color: #4BB543;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    text-align: left;
+}

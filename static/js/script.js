@@ -1,4 +1,4 @@
-function checkFailed() {
+function checkParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('login_failed') === '1') {
         document.getElementById('username').style.borderColor = 'rgb(246, 70, 93)';
@@ -29,6 +29,16 @@ function checkFailed() {
         usernameInput.addEventListener('focus', clearSignupFailed);
         passwordInput.addEventListener('focus', clearSignupFailed);
     }
+
+    if (urlParams.get('signup_successful') === '1') {
+        document.getElementById('signup-successful-message').style.display = 'block';
+
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+
+        usernameInput.addEventListener('focus', clearSigupSuccessful);
+        passwordInput.addEventListener('focus', clearSigupSuccessful);
+    }
 }
 
 function clearLoginFailed() {
@@ -45,4 +55,8 @@ function clearSignupFailed() {
     document.getElementById('signup-failed-message').style.display = 'none';
 }
 
-window.onload = checkFailed;
+function clearSigupSuccessful() {
+    document.getElementById('signup-successful-message').style.display = 'none';
+}
+
+window.onload = checkParameters;

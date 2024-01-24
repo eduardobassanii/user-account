@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import sqlite3
 
 app = Flask(__name__)
+app.config['SESSION_COOKIE_SECURE'] = True
 app.secret_key = 'your_secret_key'  # Replace with your own secret key
 
 def create_table():
@@ -35,7 +36,22 @@ def signup():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    if 'username' in session:
+        username = session['username']
+
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        user = cursor.fetchone()
+        conn.close()
+
+        user_info = {
+            'first_name': user[1],
+            'last_name': user[2],
+        }
+        return render_template('dashboard.html', user_info=user_info)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login_request', methods=['GET', 'POST'])
 def login_request():
@@ -50,6 +66,7 @@ def login_request():
         conn.close()
         
         if user and user[4] == password:
+            session['username'] = user[3]
             return redirect(url_for('dashboard'))
         else:
             return redirect(url_for('login', login_failed=1))
@@ -75,7 +92,7 @@ def signup_request():
             cursor.execute("INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)", (first_name, last_name, username, password))
             conn.commit()
             conn.close()
-            return redirect(url_for('login_request'))
+            return redirect(url_for('login', signup_successful=1))
     return render_template('signup.html')
 
 if __name__ == "__main__":
