@@ -95,5 +95,26 @@ def signup_request():
             return redirect(url_for('login', signup_successful=1))
     return render_template('signup.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/delete_account')
+def delete_account():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM users WHERE username=?", (username,))
+    conn.commit()
+    conn.close()
+
+    session.clear()
+    return redirect(url_for('login'))
+
 if __name__ == "__main__":
     app.run()

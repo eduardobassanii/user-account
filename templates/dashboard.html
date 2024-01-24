@@ -8,12 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
         <p>What would you like to do, <span id="name">{{ user_info['first_name'] }} {{ user_info['last_name'] }}</span>?</p>
         <div class="dashboard-options">
-            <a href="/logout" class="dashboard-button">
+            <a href="{{ url_for('logout') }}" class="dashboard-button">
                 <span class="option-number">1</span>
                 <span class="option-text">Logout</span>
             </a>
@@ -21,7 +22,7 @@
                 <span class="option-number">2</span>
                 <span class="option-text">Change Password</span>
             </a>
-            <a href="/delete_account" class="dashboard-button">
+            <a href="#" onclick="confirmAccountDeletion()" data-url="{{ url_for('delete_account') }}" class="dashboard-button" id="delete-account">
                 <span class="option-number">3</span>
                 <span class="option-text">Delete Account</span>
             </a>

@@ -59,4 +59,12 @@ function clearSigupSuccessful() {
     document.getElementById('signup-successful-message').style.display = 'none';
 }
 
+function confirmAccountDeletion() {
+    var confirmDeletion = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    if (confirmDeletion) {
+        var deleteUrl = document.getElementById('delete-account').getAttribute('data-url');
+        window.location.href = deleteUrl;
+    }
+}
+
 window.onload = checkParameters;
